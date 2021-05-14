@@ -49,6 +49,7 @@ export default function Login() {
           />
         }
         buttonStyle={[styles.buttonSignIn, styles.button]}
+        titleStyle={styles.text}
         title="Entrar"
         onPress={() => handleSignIn()}
       />
@@ -62,6 +63,7 @@ export default function Login() {
           />
         }
         buttonStyle={[styles.buttonSignUp, styles.button]}
+        titleStyle={styles.text}
         title="Cadastrar"
         onPress={() => handleSignUp()}
       />
@@ -72,13 +74,20 @@ export default function Login() {
 
 const styles = StyleSheet.create({
   button: {
-    width: '100%',
-    marginTop: 10
+    width: '70%',
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   buttonSignIn: {
     backgroundColor: '#289b48'
   },
   buttonSignUp: {
     backgroundColor: '#197174'
+  },
+  text: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })

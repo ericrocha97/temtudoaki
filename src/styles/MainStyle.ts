@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ccc',
+    backgroundColor: '#eee',
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
     alignSelf: "flex-start",
-    marginLeft: 15,
+    marginLeft: 16,
     color: "#f00",
     fontSize: 12
   }

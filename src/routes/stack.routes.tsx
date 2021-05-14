@@ -26,7 +26,7 @@ const AppRoutes: React.FC = () => {
           headerShown: true,
           title: "Cadastra-se",
           headerStyle: {
-            backgroundColor: '#ccc',
+            backgroundColor: '#eee',
             elevation: 0,
           }
         }}
