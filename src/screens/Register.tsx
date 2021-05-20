@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react'
-import { View, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Keyboard, Alert } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Keyboard, Alert, Dimensions } from 'react-native';
 import { Button, Input, Text, CheckBox } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { StatusBar } from 'expo-status-bar';
 import { TextInputMask, TextInputMaskMethods } from 'react-native-masked-text';
+import { ActivityIndicator } from 'react-native-paper';
 
 
 import mainStyles from '../styles/MainStyle';
@@ -49,6 +50,9 @@ export default function Register() {
 
   const hideDialog = (status: boolean) => {
     setVisibleDialog(status)
+    if (title === 'Sucesso') {
+      clearFields()
+    }
   }
 
   function validate() {
@@ -89,6 +93,15 @@ export default function Register() {
     return !error;
   }
 
+  function clearFields() {
+    setEmail('')
+    setName('')
+    setCPF('')
+    setPhone('')
+    setPassword('')
+    setIsSelected(false)
+  }
+
 
   function handleRegister() {
     if (validate()) {
@@ -106,7 +119,7 @@ export default function Register() {
         .then((response) => {
           setLoading(false)
           const titulo = (response.data.status) ? "Sucesso" : "Erro"
-          showDialog(titulo, response.data.mensagem, "SUCESSO")
+          showDialog(titulo, response.data.message, "SUCESSO")
           //Alert.alert(titulo, response.data.message)
         })
         .catch((error) => {
@@ -135,6 +148,7 @@ export default function Register() {
                   setEmail(value)
                   setErrorEmail('')
                 }}
+                value={email}
                 errorMessage={errorEmail}
               />
               <Input
@@ -144,6 +158,7 @@ export default function Register() {
                   setName(value)
                   setErrorName('')
                 }}
+                value={name}
                 errorMessage={errorName}
               />
 
@@ -196,6 +211,7 @@ export default function Register() {
                   setPassword(value)
                   setErrorPassword('')
                 }}
+                value={password}
                 errorMessage={errorPassword}
                 secureTextEntry={true}
               />
@@ -213,24 +229,29 @@ export default function Register() {
                 textStyle={styles.text}
               />
 
-              {isLoading &&
-                <Text>Carregando...</Text>
+              {isLoading ? (
+                <ActivityIndicator />
+              ) :
+                (
+                  <Button
+                    icon={
+                      <Icon
+                        name="check-circle"
+                        size={18}
+                        color="white"
+                      />
+                    }
+                    title="Salvar"
+                    buttonStyle={styles.button}
+                    titleStyle={styles.text}
+                    onPress={() => handleRegister()}
+                  />
+                )
+
               }
-              {!isLoading &&
-                <Button
-                  icon={
-                    <Icon
-                      name="check-circle"
-                      size={18}
-                      color="white"
-                    />
-                  }
-                  title="Salvar"
-                  buttonStyle={styles.button}
-                  titleStyle={styles.text}
-                  onPress={() => handleRegister()}
-                />
-              }
+
+
+
 
             </View>
 
@@ -260,7 +281,7 @@ const styles = StyleSheet.create({
     marginBottom: 30
   },
   button: {
-    width: '70%',
+    width: Dimensions.get('window').width * 0.7,
     marginTop: 10,
     alignItems: 'center',
     justifyContent: 'center'

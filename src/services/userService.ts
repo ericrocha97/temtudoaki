@@ -1,4 +1,4 @@
-//import AsyncStorage from "@react-native-async-storage/async-storage"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios"
 //import Config from "../util/Config"
 
@@ -10,11 +10,16 @@ interface userCreate {
   phone: string;
 }
 
+interface userLogin {
+  username: string;
+  password: string;
+}
+
 class UserService {
 
   async create(data: userCreate) {
     return axios({
-      url: "http://192.168.0.102:3000/user/create",
+      url: "http://192.168.1.68:3000/user/create",
       method: "POST",
       timeout: 5000,
       data: data,
@@ -22,6 +27,23 @@ class UserService {
         Accept: 'application/json'
       }
     }).then((response) => {
+      return Promise.resolve(response)
+    }).catch((error) => {
+      return Promise.reject(error)
+    })
+  }
+
+  async login(data: userLogin) {
+    return axios({
+      url: "http://192.168.1.68:3000/user/login",
+      method: "POST",
+      timeout: 5000,
+      data: data,
+      headers: {
+        Accept: 'application/json'
+      }
+    }).then((response) => {
+      AsyncStorage.setItem("@temtudoaki:token", response.data.access_token)
       return Promise.resolve(response)
     }).catch((error) => {
       return Promise.reject(error)

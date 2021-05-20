@@ -15,7 +15,7 @@ const AuthRoutes: React.FC = () => {
         labelPosition: 'beside-icon',
         style: {
           height: 60,
-          paddingVertical: Platform.OS === 'ios' ? 30 : 0,
+          paddingBottom: Platform.OS === 'ios' ? 25 : 0,
         }
       }}
     >
@@ -32,6 +32,20 @@ const AuthRoutes: React.FC = () => {
           ))
         }}
       />
+      <AppTab.Screen
+        name="teste"
+        component={Home}
+        options={{
+          tabBarIcon: (({ size, color }) => (
+            <MaterialIcons
+              name="add-circle-outline"
+              size={size}
+              color={color}
+            />
+          ))
+        }}
+      />
+
     </AppTab.Navigator>
   )
 }
