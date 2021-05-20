@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { View, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Keyboard, Alert } from 'react-native';
 import { Button, Input, Text, CheckBox } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { StatusBar } from 'expo-status-bar';
 import { TextInputMask, TextInputMaskMethods } from 'react-native-masked-text';
 
@@ -28,7 +28,7 @@ export default function Register() {
   const [errorPhone, setErrorPhone] = useState('');
   const [errorPassword, setErrorPassword] = useState('');
 
-
+  //dialog
   const [visibleDialog, setVisibleDialog] = useState(false);
   const [title, setTitle] = useState('')
   const [message, setMessage] = useState('')
@@ -202,8 +202,9 @@ export default function Register() {
 
               <CheckBox
                 title="Eu aceito os termos de uso"
-                checkedIcon="check"
-                uncheckedIcon="square-o"
+                iconType="Material"
+                checkedIcon="check-box"
+                uncheckedIcon="check-box-outline-blank"
                 checkedColor="green"
                 uncheckedColor="red"
                 checked={isSelected}
@@ -219,8 +220,8 @@ export default function Register() {
                 <Button
                   icon={
                     <Icon
-                      name="check"
-                      size={15}
+                      name="check-circle"
+                      size={18}
                       color="white"
                     />
                   }
@@ -238,7 +239,7 @@ export default function Register() {
 
       </ScrollView>
       {visibleDialog &&
-        <CustomDialog title={title} message={message} type={type} visible={visibleDialog} onClose={hideDialog}></CustomDialog>
+        <CustomDialog title={title} message={message} type={type} visible={visibleDialog} onClose={hideDialog} />
       }
     </View>
   )
@@ -247,7 +248,6 @@ export default function Register() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
     backgroundColor: '#eee',
   },
   content: {

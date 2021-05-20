@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
 import { Provider, Button as PaperButton, Paragraph, Dialog, Portal } from 'react-native-paper';
 
 interface CustomDialogProps {
@@ -28,4 +27,4 @@ const CustomDialog = (props: CustomDialogProps) => {
   )
 }
 
-export default CustomDialog
+export default CustomDialog;

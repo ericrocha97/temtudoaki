@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Input, Text } from 'react-native-elements';
 import { StatusBar } from 'expo-status-bar';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 
 import mainStyles from '../styles/MainStyle';
@@ -30,21 +30,23 @@ export default function Login() {
       <Text h3>Entre no TemTudoAki</Text>
       <Input
         placeholder="E-mail"
-        leftIcon={{ type: 'font-awesome', name: 'envelope' }}
+        leftIcon={{ type: 'material', size: 32, name: 'email', color: "#86939e" }}
+        style={{ padding: 5 }}
         onChangeText={value => setEmail(value)}
         keyboardType="email-address"
       />
       <Input
         placeholder="Sua senha"
-        leftIcon={{ type: 'font-awesome', name: 'lock' }}
+        leftIcon={{ type: 'material', size: 32, name: 'lock', color: "#86939e" }}
+        style={{ padding: 5 }}
         onChangeText={value => setPassword(value)}
         secureTextEntry={true}
       />
       <Button
         icon={
           <Icon
-            name="check"
-            size={15}
+            name="check-circle"
+            size={18}
             color="white"
           />
         }
@@ -57,14 +59,14 @@ export default function Login() {
       <Button
         icon={
           <Icon
-            name="user"
-            size={15}
+            name="person"
+            size={18}
             color="white"
           />
         }
         buttonStyle={[styles.buttonSignUp, styles.button]}
         titleStyle={styles.text}
-        title="Cadastrar"
+        title="Cadastrar-se"
         onPress={() => handleSignUp()}
       />
     </View>
@@ -77,7 +79,8 @@ const styles = StyleSheet.create({
     width: '70%',
     marginTop: 10,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+
   },
   buttonSignIn: {
     backgroundColor: '#289b48'
