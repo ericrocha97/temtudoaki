@@ -6,11 +6,11 @@ import { StatusBar } from 'expo-status-bar';
 import { TextInputMask, TextInputMaskMethods } from 'react-native-masked-text';
 import { ActivityIndicator } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { TouchableWithoutFeedback } from 'react-native';
 
 
 
 import mainStyles from '../styles/MainStyle';
-import { TouchableWithoutFeedback } from 'react-native';
 import userService from '../services/userService';
 import CustomDialog from '../components/CustomDialog';
 
@@ -22,7 +22,7 @@ export default function UserRegister() {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [isSelected, setIsSelected] = useState(false);
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(false);
 
   //erros
   const [errorEmail, setErrorEmail] = useState('');
@@ -120,8 +120,8 @@ export default function UserRegister() {
       userService.create(data)
         .then((response) => {
           setLoading(false)
-          const titulo = (response.data.status) ? "Sucesso" : "Erro"
-          showDialog(titulo, response.data.message, "SUCESSO")
+          const dialogTitle = (response.data.status) ? "Sucesso" : "Erro"
+          showDialog(dialogTitle, response.data.message, "SUCESSO")
           //Alert.alert(titulo, response.data.message)
         })
         .catch((error) => {
@@ -133,8 +133,8 @@ export default function UserRegister() {
   }
 
   return (
-    <SafeAreaView style={{ height: "100%", backgroundColor: '#eee', }}>
-      <ScrollView style={[styles.container, { width: "100%" }]}>
+    <SafeAreaView style={[{ height: "100%" }, styles.container]}>
+      <ScrollView style={[{ width: "100%" }, styles.container]}>
         <KeyboardAvoidingView
           style={[mainStyles.container, styles.container]}
           behavior={Platform.OS == "ios" ? "padding" : "height"}
@@ -228,8 +228,8 @@ export default function UserRegister() {
                 uncheckedColor="red"
                 checked={isSelected}
                 onPress={() => setIsSelected(!isSelected)}
-                containerStyle={styles.button}
-                textStyle={styles.text}
+                containerStyle={mainStyles.button}
+                textStyle={mainStyles.textButton}
               />
 
               {isLoading ? (
@@ -245,8 +245,8 @@ export default function UserRegister() {
                       />
                     }
                     title="Salvar"
-                    buttonStyle={styles.button}
-                    titleStyle={styles.text}
+                    buttonStyle={mainStyles.button}
+                    titleStyle={mainStyles.textButton}
                     onPress={() => handleRegister()}
                   />
                 )
@@ -283,15 +283,4 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 30
   },
-  button: {
-    width: Dimensions.get('window').width * 0.7,
-    marginTop: 10,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  text: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
 })

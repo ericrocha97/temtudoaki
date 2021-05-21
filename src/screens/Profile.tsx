@@ -8,6 +8,8 @@ import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import mainStyles from '../styles/MainStyle';
+
 export default function Profile() {
 
   const navigation = useNavigation();
@@ -25,7 +27,7 @@ export default function Profile() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <SafeAreaView style={mainStyles.container}>
       <Text h4>Profile!</Text>
       <Button
         icon={
@@ -36,17 +38,8 @@ export default function Profile() {
           />
         }
         title="Sair"
-        buttonStyle={{
-          width: Dimensions.get('window').width * 0.7,
-          marginTop: 10,
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-        titleStyle={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
+        buttonStyle={mainStyles.button}
+        titleStyle={mainStyles.textButton}
         onPress={() => logout()}
       />
     </SafeAreaView>

@@ -6,11 +6,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import { ActivityIndicator } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import mainStyles from '../styles/MainStyle';
 import userService from '../services/userService';
 import CustomDialog from '../components/CustomDialog';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -139,8 +139,8 @@ export default function Login() {
                               color="white"
                             />
                           }
-                          buttonStyle={[styles.buttonSignIn, styles.button]}
-                          titleStyle={styles.text}
+                          buttonStyle={[styles.buttonSignIn, mainStyles.button]}
+                          titleStyle={mainStyles.textButton}
                           title="Entrar"
                           onPress={() => handleSignIn()}
                         />
@@ -156,8 +156,8 @@ export default function Login() {
                           color="white"
                         />
                       }
-                      buttonStyle={[styles.buttonSignUp, styles.button]}
-                      titleStyle={styles.text}
+                      buttonStyle={[styles.buttonSignUp, mainStyles.button]}
+                      titleStyle={mainStyles.textButton}
                       title="Cadastrar-se"
                       onPress={() => handleSignUp()}
                     />
@@ -185,22 +185,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  button: {
-    width: Dimensions.get('window').width * 0.7,
-    marginTop: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-
-  },
   buttonSignIn: {
     backgroundColor: '#289b48'
   },
   buttonSignUp: {
     backgroundColor: '#197174'
-  },
-  text: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
   }
 })

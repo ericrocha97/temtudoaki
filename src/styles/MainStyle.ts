@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -9,8 +9,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   button: {
-    width: "100%",
-    marginTop: 10
+    width: Dimensions.get('window').width * 0.7,
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10
+  },
+  textButton: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   cancelButton: {
     backgroundColor: "#c00"

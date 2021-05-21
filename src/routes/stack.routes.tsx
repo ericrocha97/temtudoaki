@@ -5,6 +5,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Login from '../screens/Login';
 import AuthRoutes from './tabs.routes';
 import UserRegister from '../screens/UserRegister';
+import ServiceRegister from '../screens/ServiceRegister';
+import ProductRegister from '../screens/ProductRegister';
 
 const stackRoutes = createStackNavigator();
 
@@ -39,6 +41,37 @@ const AppRoutes: React.FC = () => {
           name="AuthRoutes"
           options={{ headerShown: false }}
           component={AuthRoutes}
+        />
+
+        <stackRoutes.Screen
+          name="ServiceRegister"
+          options={{
+            headerShown: true,
+            headerBackTitleVisible: false,
+            title: "Cadastrar Serviço",
+            headerStyle: {
+              backgroundColor: '#eee',
+              elevation: 1,
+              shadowOpacity: 1,
+            }
+          }}
+          component={ServiceRegister}
+        />
+
+
+        <stackRoutes.Screen
+          name="ProductRegister"
+          options={{
+            headerShown: true,
+            headerBackTitleVisible: false,
+            title: "Cadastrar Produto",
+            headerStyle: {
+              backgroundColor: '#eee',
+              elevation: 1,
+              shadowOpacity: 1,
+            }
+          }}
+          component={ProductRegister}
         />
       </stackRoutes.Navigator>
     </SafeAreaProvider>
