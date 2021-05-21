@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Alert, ScrollView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native';
 import { Button, Input, Text } from 'react-native-elements';
 import { StatusBar } from 'expo-status-bar';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import { ActivityIndicator } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import mainStyles from '../styles/MainStyle';
 import userService from '../services/userService';
 import CustomDialog from '../components/CustomDialog';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(false);
+  const [isLoadingToken, setLoadingToken] = useState(false);
 
   const navigation = useNavigation();
 
@@ -46,7 +49,7 @@ export default function Login() {
         setLoading(false)
         navigation.reset({
           index: 0,
-          routes: [{ name: "Home" }]
+          routes: [{ name: "AuthRoutes" }]
         })
       })
       .catch((error) => {
@@ -59,11 +62,39 @@ export default function Login() {
   }
 
   function handleSignUp() {
-    navigation.navigate("Register")
+    navigation.navigate("UserRegister")
   }
 
+
+  function signInWithToken(token: string) {
+    setLoadingToken(true);
+    const data = {
+      token
+    }
+
+    userService.loginWithToken(data)
+      .then((response) => {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "AuthRoutes" }]
+        })
+
+      })
+      .catch((error) => {
+        setLoadingToken(false);
+      })
+  }
+
+  useEffect(() => {
+    AsyncStorage.getItem("@temtudoaki:token").then((tokenItem) => {
+      if (tokenItem) {
+        signInWithToken(tokenItem);
+      }
+    })
+  }, [])
+
   return (
-    <View style={{ height: "100%", backgroundColor: '#eee', }}>
+    <SafeAreaView style={{ height: "100%", backgroundColor: '#eee', }}>
       <ScrollView style={{ width: "100%" }}>
         <KeyboardAvoidingView
           style={mainStyles.container}
@@ -73,56 +104,66 @@ export default function Login() {
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.content}>
               <StatusBar style="auto" />
-              <Text h3>Entre no TemTudoAki</Text>
-              <Input
-                placeholder="E-mail"
-                leftIcon={{ type: 'material', size: 32, name: 'email', color: "#86939e" }}
-                style={{ padding: 5 }}
-                onChangeText={value => setEmail(value)}
-                keyboardType="email-address"
-              />
-              <Input
-                placeholder="Sua senha"
-                leftIcon={{ type: 'material', size: 32, name: 'lock', color: "#86939e" }}
-                style={{ padding: 5 }}
-                onChangeText={value => setPassword(value)}
-                secureTextEntry={true}
-              />
               {
-                isLoading ? (
-                  <ActivityIndicator />
+                isLoadingToken ? (
+                  <>
+                    <Text>Só um minutinho...</Text>
+                    <ActivityIndicator />
+                  </>
                 ) : (
-                  <Button
-                    icon={
-                      <Icon
-                        name="check-circle"
-                        size={18}
-                        color="white"
-                      />
+                  <>
+                    <Text h3>Entre no TemTudoAki</Text>
+                    <Input
+                      placeholder="E-mail"
+                      leftIcon={{ type: 'material', size: 32, name: 'email', color: "#86939e" }}
+                      style={{ padding: 5 }}
+                      onChangeText={value => setEmail(value)}
+                      keyboardType="email-address"
+                    />
+                    <Input
+                      placeholder="Sua senha"
+                      leftIcon={{ type: 'material', size: 32, name: 'lock', color: "#86939e" }}
+                      style={{ padding: 5 }}
+                      onChangeText={value => setPassword(value)}
+                      secureTextEntry={true}
+                    />
+                    {
+                      isLoading ? (
+                        <ActivityIndicator />
+                      ) : (
+                        <Button
+                          icon={
+                            <Icon
+                              name="check-circle"
+                              size={18}
+                              color="white"
+                            />
+                          }
+                          buttonStyle={[styles.buttonSignIn, styles.button]}
+                          titleStyle={styles.text}
+                          title="Entrar"
+                          onPress={() => handleSignIn()}
+                        />
+                      )
                     }
-                    buttonStyle={[styles.buttonSignIn, styles.button]}
-                    titleStyle={styles.text}
-                    title="Entrar"
-                    onPress={() => handleSignIn()}
-                  />
+
+
+                    <Button
+                      icon={
+                        <Icon
+                          name="person"
+                          size={18}
+                          color="white"
+                        />
+                      }
+                      buttonStyle={[styles.buttonSignUp, styles.button]}
+                      titleStyle={styles.text}
+                      title="Cadastrar-se"
+                      onPress={() => handleSignUp()}
+                    />
+                  </>
                 )
               }
-
-
-              <Button
-                icon={
-                  <Icon
-                    name="person"
-                    size={18}
-                    color="white"
-                  />
-                }
-                buttonStyle={[styles.buttonSignUp, styles.button]}
-                titleStyle={styles.text}
-                title="Cadastrar-se"
-                onPress={() => handleSignUp()}
-              />
-
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -131,7 +172,7 @@ export default function Login() {
       {visibleDialog &&
         <CustomDialog title={title} message={message} type={type} visible={visibleDialog} onClose={hideDialog} />
       }
-    </View>
+    </SafeAreaView>
   );
 }
 

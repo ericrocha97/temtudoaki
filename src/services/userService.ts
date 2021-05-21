@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios"
+import Config from '../util/config';
 //import Config from "../util/Config"
 
 interface userCreate {
@@ -15,17 +16,19 @@ interface userLogin {
   password: string;
 }
 
+interface userLoginWithToken {
+  token: string;
+}
+
 class UserService {
 
   async create(data: userCreate) {
     return axios({
-      url: "http://192.168.1.68:3000/user/create",
+      url: `${Config.API_URL}user/create`,
       method: "POST",
-      timeout: 5000,
+      timeout: Config.TIMEOUT_REQUEST,
       data: data,
-      headers: {
-        Accept: 'application/json'
-      }
+      headers: Config.HEADER_REQUEST
     }).then((response) => {
       return Promise.resolve(response)
     }).catch((error) => {
@@ -35,13 +38,25 @@ class UserService {
 
   async login(data: userLogin) {
     return axios({
-      url: "http://192.168.1.68:3000/user/login",
+      url: `${Config.API_URL}user/login`,
       method: "POST",
-      timeout: 5000,
+      timeout: Config.TIMEOUT_REQUEST,
       data: data,
-      headers: {
-        Accept: 'application/json'
-      }
+      headers: Config.HEADER_REQUEST
+    }).then((response) => {
+      AsyncStorage.setItem("@temtudoaki:token", response.data.access_token)
+      return Promise.resolve(response)
+    }).catch((error) => {
+      return Promise.reject(error)
+    })
+  }
+  async loginWithToken(data: userLoginWithToken) {
+    return axios({
+      url: `${Config.API_URL}user/login-token`,
+      method: "POST",
+      timeout: Config.TIMEOUT_REQUEST,
+      data: data,
+      headers: Config.HEADER_REQUEST
     }).then((response) => {
       AsyncStorage.setItem("@temtudoaki:token", response.data.access_token)
       return Promise.resolve(response)

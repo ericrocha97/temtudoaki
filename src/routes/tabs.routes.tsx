@@ -2,51 +2,104 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Platform } from 'react-native';
-import Home from '../screens/Home';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Profile from '../screens/Profile';
+import Search from '../screens/Search';
+import Products from '../screens/Products';
+import Services from '../screens/Services';
+import Register from '../screens/Register';
 
 const AppTab = createBottomTabNavigator();
 
 const AuthRoutes: React.FC = () => {
   return (
-    <AppTab.Navigator
-      tabBarOptions={{
-        activeTintColor: '#1ac954',
-        inactiveTintColor: '#116318',
-        labelPosition: 'beside-icon',
-        style: {
-          height: 60,
-          paddingBottom: Platform.OS === 'ios' ? 25 : 0,
-        }
-      }}
-    >
-      <AppTab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          tabBarIcon: (({ size, color }) => (
-            <MaterialIcons
-              name="add-circle-outline"
-              size={size}
-              color={color}
-            />
-          ))
+    <SafeAreaProvider>
+      <AppTab.Navigator
+        tabBarOptions={{
+          activeTintColor: '#e91e63',
+          style: {
+            paddingBottom: Platform.OS === 'ios' ? 35 : 10,
+          }
         }}
-      />
-      <AppTab.Screen
-        name="teste"
-        component={Home}
-        options={{
-          tabBarIcon: (({ size, color }) => (
-            <MaterialIcons
-              name="add-circle-outline"
-              size={size}
-              color={color}
-            />
-          ))
-        }}
-      />
+        initialRouteName="Search"
+      >
+        <AppTab.Screen
+          name="Search"
+          component={Search}
+          options={{
+            tabBarLabel: 'Buscar',
+            tabBarIcon: (({ size, color }) => (
+              <MaterialIcons
+                name="person-search"
+                size={size}
+                color={color}
+              />
+            ))
+          }}
+        />
 
-    </AppTab.Navigator>
+        <AppTab.Screen
+          name="Products"
+          component={Products}
+          options={{
+            tabBarLabel: 'Produtos',
+            tabBarIcon: (({ size, color }) => (
+              <MaterialIcons
+                name="shopping-bag"
+                size={size}
+                color={color}
+              />
+            ))
+          }}
+        />
+
+        <AppTab.Screen
+          name="Services"
+          component={Services}
+          options={{
+            tabBarLabel: 'Serviços',
+            tabBarIcon: (({ size, color }) => (
+              <MaterialIcons
+                name="emoji-people"
+                size={size}
+                color={color}
+              />
+            ))
+          }}
+        />
+
+        <AppTab.Screen
+          name="Register"
+          component={Register}
+          options={{
+            tabBarLabel: 'Cadastrar',
+            tabBarIcon: (({ size, color }) => (
+              <MaterialIcons
+                name="add-circle"
+                size={size}
+                color={color}
+              />
+            ))
+          }}
+        />
+
+        <AppTab.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            tabBarLabel: 'Perfil',
+            tabBarIcon: (({ size, color }) => (
+              <MaterialIcons
+                name="account-circle"
+                size={size}
+                color={color}
+              />
+            ))
+          }}
+        />
+
+      </AppTab.Navigator>
+    </SafeAreaProvider>
   )
 }
 
